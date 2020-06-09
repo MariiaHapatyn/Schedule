@@ -1,0 +1,192 @@
+schedule-editor-view {
+    max-width: 100%;
+}
+
+#schedule-editor {
+    font-size: 1rem;
+    height: 90%;
+}
+
+#schedule-editor .offset {
+    margin-right: -3em;
+}
+
+#schedule-editor .control.control-right {
+    margin-left: -2em;
+}
+
+#schedule-editor .control.control-left {
+    margin-right: -2em;
+}
+
+#schedule-editor .control {
+    width: 2em;
+    z-index: 10;
+}
+
+#schedule-editor .control:hover {
+    background-color: rgb(0, 0, 255, 0.2);
+}
+
+#schedule-editor .card-header,
+#schedule-editor .card-body {
+    padding: 0;
+}
+
+#schedule-table {
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+
+#schedule-table th,
+#schedule-table td {
+    padding: 10em auto;
+}
+
+#schedule-table td.suitable-true {
+    background-color: #CCFACC;
+}
+
+#schedule-table td.suitable-false {
+    background-color: #FACCCC;
+}
+
+#schedule-table button.available-false {
+    visibility: hidden;
+}
+
+#schedule-table .btn-sm {
+    padding: 0.2em 0.1em;
+    line-height: 1.2rem;
+}
+
+#schedule-table td :nth-child(2) {
+    margin-top: 0.3rem;
+}
+
+#schedule-table .fa {
+    font-size: smaller;
+}
+
+#schedule-table tr {
+    border-bottom: 2px solid #dae0e5;
+    border-top: 2px solid #dae0e5;
+    border-left: 10px solid #dae0e5;
+    border-right: 10px solid #dae0e5;
+}
+
+#schedule-table .right-border {
+    border-right: 10px solid #dae0e5;
+}
+
+#available-classes .all-set {
+    width: 100%;
+}
+
+.available-classes-collapsed {
+    margin-bottom: 1em;
+}
+
+.available-classes-expanded {
+    margin-bottom: 6em;
+}
+
+.placeholder {
+    visibility: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+.text-sm {
+    font-size: 0.8em;
+}
+
+.scroll-x {
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.not-set-class {
+    width: 8em;
+}
+
+.my-btn {
+    border-radius: 2.5rem;
+}
+
+#combined div {
+    width: 100%;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+}
+
+
+/* Hide default HTML checkbox */
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+/* The slider */
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
+}
+
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

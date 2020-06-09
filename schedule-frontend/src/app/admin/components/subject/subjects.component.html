@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <h2 class="h2 text-center">Предмети</h2>
+
+            <div class="text-right">
+                <button class="btn btn-primary m-3" (click)="addSubjectClicked()">
+                    Додати предмет
+                </button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Назва</th>
+                        <th>Викладачі</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let subject of subjects">
+                        <td>
+                            {{ subject.name }}
+                        </td>
+                        <td>
+                            {{ getUsersAsString(subject.lecturers) }}
+                        </td>
+                        <td class="text-right">
+                            <button class="btn btn-sm btn-success" (click)="editSubjectClicked(subject)">
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" (click)="deleteSubjectClicked(subject.id)">
+                                <i class="fa fa-remove" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

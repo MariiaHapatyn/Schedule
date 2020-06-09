@@ -1,0 +1,113 @@
+<div class="container-fluid text-center">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-0 p-0 text-center control control-left" (mouseenter)="scrollLeft=true;" (mouseleave)="scrollLeft=false;">
+        </div>
+        <div class="col-12 p-0">
+            <div #scheduleTable id="schedule-table" class="table-responsive  scroll-x">
+                <table type="table" class="table table-bordered table-sm table-striped" id="header">
+                    <thead>
+                        <tr>
+                            <th class="text-center right-border">День</th>
+                            <th colspan="9" class="text-center right-border">Понеділок</th>
+                            <th colspan="9" class="text-center right-border">Вівторок</th>
+                            <th colspan="9" class="text-center right-border">Середа</th>
+                            <th colspan="9" class="text-center right-border">Четвер</th>
+                            <th colspan="9" class="text-center right-border">П'ятниця</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center right-border">#&nbsp;пари</th>
+                            <th *ngFor="let n of getArrayOfNumbers(45)" class="text-center {{getCellClass(n)}}">
+                                {{ getNumber(n) }}
+                            </th>
+                        </tr>
+                        <tr [style.fontSize]="fontSize+'em'" class="text-sm">
+                            <th class="text-center text-sm right-border">Початок<br />Кінець</th>
+                            <th *ngFor="let n of getArrayOfNumbers(45)" class="text-center text-sm {{getCellClass(n)}}">
+                                {{ getClassStart(getNumber(n)) }}<br />{{ getClassEnd(getNumber(n)) }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let viewObject of context.objects">
+                            <ng-container *ngIf="areLoaded.get(viewObject.id)">
+                                <td class="right-border">
+                                    <div class="btn btn-block btn-sm text-center text-sm">
+                                        {{ getViewObjectName(viewObject) }}
+                                    </div>
+                                    <!-- <div class="btn btn-block btn-sm text-center placeholder text-sm">
+                                        яйко-сподівайко
+                                    </div> -->
+                                </td>
+
+                                <td *ngFor="let cell of viewCells.get(viewObject.id)" class="text-center {{isSuitable(viewObject, cell.n)}} {{getCellClass(cell.n)}}" [style.fontSize]="fontSize+'em'">
+                                    <div [ngSwitch]="cell.frequency">
+                                        <!-- NONE -->
+                                        <ng-container *ngSwitchCase="0">
+                                            <ng-container *ngTemplateOutlet="emptyCell; context: { frequency: dragFrequency === 1 ? 1 : 2 }"></ng-container>
+                                            <ng-container *ngIf="showDenominator; else placeholder">
+                                                <ng-container *ngTemplateOutlet="emptyCell; context: { frequency: 3 }"></ng-container>
+                                            </ng-container>
+                                            <ng-template #placeholder>
+                                                <div class="btn btn-block btn-sm text-center placeholder text-sm">
+                                                    <span class="fa fa-plus"></span>
+                                                </div>
+                                            </ng-template>
+                                        </ng-container>
+                                        <!-- WEEKLY -->
+                                        <ng-container *ngSwitchCase="1">
+                                            <ng-container *ngTemplateOutlet="fullCell; context: { class: cell.weekly }"></ng-container>
+                                        </ng-container>
+                                        <!-- NUMERATOR -->
+                                        <ng-container *ngSwitchCase="2">
+                                            <ng-container *ngTemplateOutlet="fullCell; context: { class: cell.numerator }"></ng-container>
+                                            <ng-container *ngTemplateOutlet="emptyCell; context: { frequency: 3 }"></ng-container>
+                                        </ng-container>
+                                        <!-- DENOMINATOR -->
+                                        <ng-container *ngSwitchCase="3">
+                                            <ng-container *ngTemplateOutlet="emptyCell; context: { frequency: 2 }"></ng-container>
+                                            <ng-container *ngTemplateOutlet="fullCell; context: { class: cell.denominator }"></ng-container>
+                                        </ng-container>
+                                        <!-- BIWEEKLY -->
+                                        <ng-container *ngSwitchCase="4">
+                                            <ng-container *ngTemplateOutlet="fullCell; context: { class: cell.numerator }"></ng-container>
+                                            <ng-container *ngTemplateOutlet="fullCell; context: { class: cell.denominator }"></ng-container>
+                                        </ng-container>
+                                    </div>
+
+                                    <ng-template #emptyCell let-frequency="frequency">
+                                        <div dropDirective (dropEvent)="addDropItem($event, viewObject.id, cell.n, frequency)">
+                                            <!-- <button type="button" class="btn btn-block btn-sm btn-outline-{{ !canDrop(viewObject.id, cell.n, frequency) ? 'danger' : 'primary' }}" placement="right" ngbTooltip="{{ getDayOfWeekName(getDay(cell.n)) }}, {{ getNumber(cell.n) }} пара" container="body" -->
+                                            <button type="button" class="btn btn-block btn-sm my-btn btn-outline-info {{getCellAvailableClass(viewObject.id, cell.n, frequency)}}" placement="right" ngbTooltip="{{ getDayOfWeekName(getDay(cell.n)) }}, {{ getNumber(cell.n) }} пара" container="body"
+                                                (click)="addClassClicked(0, getDay(cell.n), getNumber(cell.n), viewObject, getWish(viewObject.id, getDay(cell.n), getNumber(cell.n)))">
+                                                <span class="fa fa-plus"></span>
+                                            </button>
+                                        </div>
+                                    </ng-template>
+
+                                    <ng-template #fullCell let-class="class">
+                                        <ng-template #tooltip>
+                                            <div>{{ class.dayOfWeek }}, {{ class.number }} пара</div>
+                                            <div>{{ class.frequency }}</div>
+                                            <div>{{ class.subject.name }}</div>
+                                            <div>{{ class.type }}</div>
+                                            <div>{{ getGroupsAsString(class.groups) }}</div>
+                                            <div>{{ getClassroomsAsString(class.classrooms) }}</div>
+                                            <div>{{ getLecturersAsString(class.lecturers) }}</div>
+                                        </ng-template>
+                                        <div [dragDirective]='class' (releaseDrop)="releaseDrop(class)" (startDrag)="startDrag(class, viewObject.id, cell.n)">
+                                            <button type="button" class="btn btn-block btn-sm my-btn btn-{{isClassFull(class) ? 'primary' : 'secondary'}}" placement="right" [ngbTooltip]="tooltip" #tt="ngbTooltip" (mousedown)="tt.close()" container="body" (click)="editClassClicked(class, viewObject)">
+                                                <span class="fa fa-calendar-check-o"></span>
+                                            </button>
+                                        </div>
+                                    </ng-template>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-0 p-0 text-center control control-right" (mouseenter)="scrollRight=true;" (mouseleave)="scrollRight=false;">
+        </div>
+    </div>
+</div>

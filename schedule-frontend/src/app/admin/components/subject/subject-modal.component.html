@@ -1,0 +1,96 @@
+<form (ngSubmit)="submit()" #classForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{ isEditing ? "Редагувати" : "Додати" }} предмет
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('')">
+			<i class="fa fa-remove" aria-hidden="true"></i>
+		</button>
+    </div>
+
+    <div class="modal-body">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p *ngIf="error" class="text-danger text-center">
+                        {{ errorText }}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="subjectName" class="form-control-label">
+							Назва
+						</label>
+                        <input id="subjectName" name="name" [(ngModel)]="subject.name" class="form-control" required (change)="change()" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="classroomTypeSelect">Тип аудиторії</label>
+                        <select class="form-control" id="classroomTypeSelect" required name="classroomType" [(ngModel)]="subject.requiredClassroomType">
+							<option *ngFor="let type of classroomTypes"
+							        [ngValue]="type">
+								{{ type.type }}
+							</option>
+						</select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-9">
+                    <div>Викладачі:</div>
+                    <div>{{ getUsersAsString(subject.lecturers) }}</div>
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-primary float-right" type="button" data-toggle="collapse" data-target="#collapseLecturers" aria-expanded="false" aria-controls="collapseLecturers">
+						Додати
+					</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="collapse mt-2" id="collapseLecturers">
+                        <div id="faculties" role="tablist" aria-multiselectable="true">
+                            <div *ngFor="let faculty of faculties" class="card">
+                                <div class="card-header" role="tab" id="header{{ faculty.id }}">
+                                    <h6 class="m-0">
+                                        <a data-toggle="collapse" data-parent="#faculties" href="#collapse{{ faculty.id }}" aria-expanded="false" [attr.aria-controls]="'collapse' + faculty.id">
+											{{ faculty.name }}
+										</a>
+                                    </h6>
+                                </div>
+                                <div class="collapse" id="collapse{{ faculty.id }}" role="tabpanel" [attr.aria-labelledby]="faculty.id">
+                                    <div class="card-body">
+                                        <div *ngIf="lecturers.get(faculty.id) && lecturers.get(faculty.id).length === 0">
+                                            <p>Немає викладачів.</p>
+                                        </div>
+                                        <div *ngFor="let lecturer of lecturers.get(faculty.id)" class="form-check">
+                                            <label class="form-check-label" (change)="lecturerChecked(lecturer)">
+												<input type="checkbox" class="form-check-input"
+												       [attr.checked]="isLecturerChecked(lecturer) ? true : null" />
+												{{ getUserInitials(lecturer) }}
+											</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">
+			OK
+		</button>
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('')">
+			Скасувати
+		</button>
+    </div>
+</form>

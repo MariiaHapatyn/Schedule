@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row col m-2 p-3">
+        <h1>Налаштування</h1>
+    </div>
+    <ng-container *ngFor="let restriction of restrictions">
+        <div class="row m-2 p-2 alert-info alert-heading">
+            <div class="col-1">
+                <div class="form-check switch" (click)="toggleActive(restriction.id)">
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="restriction.active">
+                    <span class="slider round"></span>
+                </div>
+            </div>
+            <div class="col">
+                {{restriction.restriction.description}}
+            </div>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,104 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md mb-3">
+            <h2 class="h2 text-center">Аудиторії</h2>
+            <div class="text-right">
+                <button class="btn btn-primary mb-3" (click)="addBuildingClicked()">
+                    <i class="fa fa-plus"></i> Додати корпус
+                </button>
+            </div>
+            <div id="buildings" role="tablist" aria-multiselectable="true">
+                <div class="card" *ngFor="let building of buildings">
+                    <div class="card-header" role="tab" id="{{ building.id }}">
+                        <!-- <div class="container"> -->
+                        <div class="row align-content-middle">
+                            <div class="col-5 pt-1">
+                                <a class="h6" data-toggle="collapse" href="#building{{ building.id }}" aria-expanded="false" [attr.aria-controls]="'building' + building.id">
+                                        {{ building.name }}
+                                    </a>
+                            </div>
+                            <div class="col-5 pt-1">
+                                {{ building.street }}, {{ building.number }}
+                            </div>
+                            <div class="col-2 text-rightbtn-group float-right my-1 text-right">
+                                <button class="btn btn-sm btn-success text-right" (click)="editBuildingClicked(building)">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger text-right" (click)="deleteBuildingClicked(building.id)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                    <div id="building{{ building.id }}" class="collapse" role="tabpanel" [attr.aria-labelledby]="building.id">
+                        <div class="text-right">
+                            <button class="btn btn-sm btn-primary m-2" (click)="addClassroomClicked(building)">
+                                <i class="fa fa-plus"></i> Додати аудиторію
+                            </button>
+                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Номер</th>
+                                    <th>Тип</th>
+                                    <th class="text-center">Місткість</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let classroom of classrooms.get(building.id)">
+                                    <td>
+                                        {{ classroom.number }}
+                                    </td>
+                                    <td>
+                                        {{ classroom.type.type }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ classroom.capacity }}
+                                    </td>
+                                    <td class="text-right">
+                                        <button class="btn btn-sm btn-success" (click)="editClassroomClicked(classroom)">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger" (click)="deleteClassroomClicked(classroom)">
+                                            <i class="fa fa-remove" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-md text-center mb-3">
+            <h2 class="h2">Типи аудиторій</h2>
+            <button class="btn btn-primary m-3" (click)="addClassroomTypeClicked()">
+				Додати тип
+			</button>
+            <div *ngFor="let type of classroomTypes">
+                <div *ngIf="type.type !== 'Будь-яка'">
+                    <div class="dropdown-divider m-0"></div>
+                    <div class="clearfix px-3 py-2 m-0">
+                        <div class="row">
+                            <div class="col-8 align-items-center">
+                                {{ type.type }}
+                            </div>
+                            <div class="col-4 btn-group align-items-center">
+                                <button class="btn btn-sm btn-success" (click)="editClassroomTypeClicked(type)">
+									<i class="fa fa-edit" aria-hidden="true"></i>
+								</button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteClassroomTypeClicked(type.id)">
+									<i class="fa fa-remove" aria-hidden="true"></i>
+								</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

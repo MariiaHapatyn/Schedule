@@ -1,0 +1,171 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label for="faculty">Факультет</label>
+                <select class="form-control" id="faculty" name="faculty" [(ngModel)]="currentFaculty" (change)="setUsers()">
+		    <option *ngIf="!currentFaculty" selected [value]="null">
+			Виберіть факультет
+		    </option>
+		    <option *ngFor="let faculty of faculties"
+			[ngValue]="faculty">
+			{{ faculty.name }}
+		    </option>
+		</select>
+            </div>
+        </div>
+        <div class="col text-right">
+            <button class="btn btn-primary" (click)="addUser()">
+		Додати користувача
+	    </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-accordion #acc="ngbAccordion" [closeOthers]="true">
+                <ngb-panel id="lecturers">
+                    <ng-template ngbPanelTitle>
+                        <div>Викладачі</div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <div *ngIf="!!currentFaculty; else notSelected" id="lecturers-list" class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Колистувач</th>
+                                        <th>Логін</th>
+                                        <th class="text-center">Спеціальність</th>
+                                        <th class="text-center">Посада</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let lecturer of lecturers">
+                                        <td>
+                                            {{ getUserInitials(lecturer) }}
+                                        </td>
+                                        <td>
+                                            {{ lecturer.username }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ lecturer.department.name }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ lecturer.position }}
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn btn-sm btn-success" (click)="editUser(lecturer)">
+						<i class="fa fa-edit" aria-hidden="true"></i>
+					    </button>
+                                            <button class="btn btn-sm btn-danger" (click)="deleteUser(lecturer)">
+						<i class="fa fa-remove" aria-hidden="true"></i>
+					    </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ng-template #notSelected>
+                            <div>
+                                Виберіть факультет
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="editors">
+                    <ng-template ngbPanelTitle>
+                        <div>Редактори</div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <div *ngIf="!!currentFaculty; else notSelected" id="editors-list" class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Колистувач</th>
+                                        <th>Логін</th>
+                                        <th class="text-center">Спеціальність</th>
+                                        <th class="text-center">Посада</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let editor of editors">
+                                        <td>
+                                            {{ getUserInitials(editor) }}
+                                        </td>
+                                        <td>
+                                            {{ editor.username }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ editor.department.name }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ editor.position }}
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn btn-sm btn-success" (click)="editUser(editor)">
+						<i class="fa fa-edit" aria-hidden="true"></i>
+					    </button>
+                                            <button class="btn btn-sm btn-danger" (click)="deleteUser(editor)">
+						<i class="fa fa-remove" aria-hidden="true"></i>
+					    </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ng-template #notSelected>
+                            <div>
+                                Виберіть факультет
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </ngb-panel>
+                <ngb-panel id="admins">
+                    <ng-template ngbPanelTitle>
+                        <div>Адміністратори</div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <div id="admins-list" class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Колистувач</th>
+                                        <th>Логін</th>
+                                        <th class="text-center">Спеціальність</th>
+                                        <th class="text-center">Посада</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let admin of admins">
+                                        <td>
+                                            {{ getUserInitials(admin) }}
+                                        </td>
+                                        <td>
+                                            {{ admin.username }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ admin.department.name }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ admin.position }}
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn btn-sm btn-success" (click)="editUser(admin)">
+						<i class="fa fa-edit" aria-hidden="true"></i>
+					    </button>
+                                            <button class="btn btn-sm btn-danger" (click)="deleteUser(admin)">
+						<i class="fa fa-remove" aria-hidden="true"></i>
+					    </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+</div>

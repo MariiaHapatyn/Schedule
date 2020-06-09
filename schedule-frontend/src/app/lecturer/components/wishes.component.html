@@ -1,0 +1,58 @@
+<h2 class="h2 text-center">Побажання</h2>
+
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col">
+			<div id="wishes" role="tablist" aria-multiselectable="true">
+				<div class="card" *ngFor="let day of [ 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П\'ятниця' ]; let index = index">
+					<div class="card-header text-center" role="tab" id="{{ index }}">
+									<span class="h6 col-1 m-0">
+										<a data-toggle="collapse" data-parent="#faculties"
+										   href="#day{{ index }}" aria-expanded="false"
+										   [attr.aria-controls]="'day' + index">
+											{{ day }}
+										</a>
+									</span>
+					</div>
+					<div id="day{{ index }}" class="collapse text-center"
+					     role="tabpanel" [attr.aria-labelledby]="index">
+						<button class="btn btn-sm btn-primary m-2"
+						        (click)="addWishClicked(day)">
+							Додати
+						</button>
+
+						<div *ngFor="let wish of wishes.get(index + 1)">
+							<div class="dropdown-divider m-0"></div>
+							<div class="clearfix px-3 py-2 m-0">
+								<div class="row py-2 align-content-center"
+								     [style.background-color]="wish.suitable ? '#CCFACC' : '#FACCCC'">
+									<div class="col-md-1 col-2 text-center">
+										{{ wish.startTime.substr(0, 5) }}
+									</div>
+									<div class="col-md-1 col-2 text-center">
+										{{ wish.endTime.substr(0, 5) }}
+									</div>
+									<div class="col-md-9 col-6 text-left">
+										{{ wish.comment }}
+									</div>
+									<div class="col-md-1 col-2 text-center">
+										<span class="btn-group">
+											<button class="btn btn-sm btn-success"
+											        (click)="editWishClicked(wish)">
+												<i class="fa fa-edit" aria-hidden="true"></i>
+											</button>
+											<button class="btn btn-sm btn-danger"
+											        (click)="deleteWishClicked(wish.id, index + 1)">
+												<i class="fa fa-remove" aria-hidden="true"></i>
+											</button>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

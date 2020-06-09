@@ -1,0 +1,41 @@
+<h2 class="h2 text-center">Розклад</h2>
+
+<div *ngIf="!isLoaded; else loaded">
+	<p class="text-center my-3">Завантаження...</p>
+</div>
+
+<ng-template #loaded>
+	<div *ngIf="classes.length === 0; else classesExist">
+		<p class="text-center my-3">Жодної пари не поставлено.</p>
+	</div>
+
+	<ng-template #classesExist>
+		<table class="table table-bordered">
+			<thead>
+			<tr>
+				<th>День</th>
+				<th>#&nbsp;пари</th>
+				<th>Час</th>
+				<th>Проводиться</th>
+				<th>Предмет</th>
+				<th>Тип</th>
+				<th>Аудиторії</th>
+				<th>Групи</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let info of classes;">
+				<td>{{ info.day }}</td>
+				<td>{{ info.number }}</td>
+				<td>{{ info.start }} - {{ info.end }}</td>
+				<td>{{ info.frequency }}</td>
+				<td>{{ info.subject }}</td>
+				<td>{{ info.type }}</td>
+				<td>{{ info.classrooms }}</td>
+				<td>{{ info.groups }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</ng-template>
+</ng-template>
+

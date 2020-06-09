@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 class="h2">Навчальні плани</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="departments" role="tablist" aria-multiselectable="true">
+                <div class="card" *ngFor="let department of departments">
+                    <div class="card-header" role="tab" id="{{ department.id }}">
+                        <h6 class="m-0">
+                            <a data-toggle="collapse" data-parent="#faculties" href="#department{{ department.id }}" aria-expanded="false" [attr.aria-controls]="'department' + department.id">
+								{{ department.name }}
+							</a>
+                        </h6>
+                    </div>
+
+                    <div id="department{{ department.id }}" class="collapse" role="tabpanel" [attr.aria-labelledby]="department.id">
+                        <div class="card card-body">
+                            <div *ngFor="let course of [ 1, 2, 3, 4, 5, 6 ]" class="card">
+                                <h6 class="m-2">
+                                    <a data-toggle="collapse" [attr.data-parent]="'#department'+department.id" href="#department{{ department.id }}{{ course }}" aria-expanded="false" [attr.aria-controls]="'department'+department.id+course">
+										{{course}} курс
+									</a>
+                                </h6>
+
+                                <div id="department{{ department.id }}{{ course }}" class="collapse" role="tabpanel" [attr.aria-labelledby]="'department'+department.id+course">
+                                    <div class="text-right">
+                                        <button class="btn btn-primary m-3" (click)="addPlan(department, course)">
+											Додати
+										</button>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Предмет</th>
+                                                <th>Лекції</th>
+                                                <th>Практичні</th>
+                                                <th>Лабораторні</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let plan of getPlans(department.id, course)">
+                                                <td>{{ plan.subject.name }}</td>
+                                                <td>
+                                                    <div>{{ plan.lectureDetails.frequency }}</div>
+                                                    <div>{{ getSpreading(plan.lectureDetails) }}</div>
+                                                </td>
+                                                <td>
+                                                    <div>{{ plan.practiceDetails.frequency }}</div>
+                                                    <div>{{ getSpreading(plan.practiceDetails) }}</div>
+                                                </td>
+                                                <td>
+                                                    <div>{{ plan.labDetails.frequency }}</div>
+                                                    <div>{{ getSpreading(plan.labDetails) }}</div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <button class="btn btn-sm btn-success" (click)="editPlan(plan, department)">
+                                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-danger" (click)="deletePlan(plan)">
+                                                        <i class="fa fa-remove" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

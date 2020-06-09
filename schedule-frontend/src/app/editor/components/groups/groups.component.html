@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 class="h2">Групи</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="text-right">
+                <button class="btn btn-primary mb-3" (click)="addGroup()">
+                    Додати
+                </button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>Назва</td>
+                        <td>Спеціальність</td>
+                        <td>К-ть студентів</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let group of groups">
+                        <td>
+                            {{ getCurrentGroupName(group) }}
+                        </td>
+                        <td>
+                            {{ group.department.name }}
+                        </td>
+                        <td>
+                            {{ group.numStudents }}
+                        </td>
+                        <td class="text-right">
+                            <button class="btn btn-sm btn-success" (click)="editGroup(group)">
+                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                </button>
+                            <button class="btn btn-sm btn-danger" (click)="deleteGroup(group.id)">
+                                    <i class="fa fa-remove" aria-hidden="true"></i>
+                                </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

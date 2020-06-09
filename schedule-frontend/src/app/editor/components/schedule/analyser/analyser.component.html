@@ -1,0 +1,29 @@
+<div class="container">
+    <div id="combined" class="row text-center">
+        <div class="alert alert-{{combinedResult.color}} text-center h4 col">
+            <span class="col"><i class="fa fa-2x {{combinedResult.icon}}"></i></span>
+            <span class="alert-header">{{ combinedResult.message }}</span>
+        </div>
+    </div>
+    <div id="detailed">
+        <ng-container *ngFor="let checkDetails of details">
+            <div *ngIf="checkDetails.key.checkPassed" class="row alert alert-success m-3 p-2">
+                <div class="col-1">
+                    <i class="fa fa-2x fa-smile-o"></i>
+                </div>
+                <div class="col">
+                    <h6 class="alert-heading">{{ checkDetails.key.message }}</h6>
+                </div>
+            </div>
+            <div *ngIf="!checkDetails.key.checkPassed" class="row alert alert-danger m-3 p-2">
+                <div class="col-1">
+                    <i class="fa fa-2x fa-frown-o"></i>
+                </div>
+                <div class="col">
+                    <h6 class="alert-heading">{{ checkDetails.key.message }}</h6>
+                    {{ checkDetails.value }}
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+<form (ngSubmit)="submit()" #classForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{ isEditing ? "Редагувати" : "Додати" }} навчальний план
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('')">
+			<i class="fa fa-remove" aria-hidden="true"></i>
+		</button>
+    </div>
+
+    <div class="modal-body">
+        <p *ngIf="error" class="text-danger text-center">
+            {{ errorText }}
+        </p>
+
+        <div class="container">
+            <div class="row">
+                <div class="col mb-2">
+                    <label for="subject" class="form-control-label">
+						Предмет
+					</label>
+                    <select class="form-control" id="subject" required name="subject" [(ngModel)]="plan.subject" (change)="change()">
+						<option *ngIf="!isEditing" selected [value]="null">
+							Виберіть предмет
+						</option>
+						<option *ngFor="let subject of subjects" [ngValue]="subject">
+							{{ subject.name }}
+						</option>
+					</select>
+                </div>
+            </div>
+            <div>
+                <div class="row">
+                    <div class="col-4" *ngFor="let details of getDetailsArray(); index as i">
+                        <div class="text-center">{{ getClassType(i) }}</div>
+                        <hr/>
+                        <label>Частота проведення</label>
+                        <select class="form-control" id="{{i}}_frequency" required name="{{i}}_frequency" [(ngModel)]="details.frequency">
+                            <option *ngFor="let frequency of getFrequencySelect()" [ngValue]="frequencyToString(frequency)">
+                                {{ frequencyToString(frequency) }}
+                            </option>
+                        </select>
+                        <div *ngIf="showDetails(details)">
+                            <label>Тип проведення</label>
+                            <select class="form-control" id="{{i}}_spreading" required name="{{i}}_spreading" [(ngModel)]="details.spreading" (change)="setGroups(i)" [disabled]="isEditing">
+                                <option *ngFor="let spreading of getSpreadingSelect()" [ngValue]="spreading">
+                                    {{ getClassSpreadingName(spreading) }}
+                                </option>
+                            </select>
+                            <div *ngIf="showGroupConfiguration(details)">
+                                <div *ngFor="let group of getGroups(details)" class="form-check">
+                                    <label class="form-check-label" (change)="groupChecked(group, details)">
+                                        <input type="checkbox" class="form-check-input"
+                                                [attr.checked]="isGroupChecked(group, details) ? true : null" />
+                                        {{ getCurrentGroupName(group) }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <label>Необхідний тип аудиторії</label>
+                            <select class="form-control" id="{{i}}_classroomType" required name="{{i}}_classroomType" [(ngModel)]="details.classroomType.id">
+                                <option *ngFor="let classroomType of classroomTypes" [ngValue]="classroomType.id">
+                                    {{ classroomType.type }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row" *ngIf="showDetails(details)">
+                    <div class="col">
+                        <label>Тип проведення</label>
+                        <select *ngIf="!isEditing; else spreading" class="form-control" id="{{i}}_spreading" required name="{{i}}_spreading" [(ngModel)]="details.spreading" (change)="setGroups(i)">
+                            <option *ngFor="let spreading of getSpreadingSelect()" [ngValue]="spreading">
+                                {{ getClassSpreadingName(spreading) }}
+                            </option>
+                        </select>
+                        <ng-template #spreading>
+                            <div>
+                                {{ getClassSpreadingName(details.spreading) }}
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="row" *ngIf="showDetails(details)">
+                    <div class="col">
+                        <label>Необхідний тип аудиторії</label>
+                        <select class="form-control" id="{{i}}_classroomType" required name="{{i}}_classroomType" [(ngModel)]="details.classroomType">
+                            <option *ngFor="let classroomType of classroomTypes" [ngValue]="classroomType">
+                                {{ classroomType.type }}
+                            </option>
+                        </select>
+                    </div>
+                </div> -->
+                <!-- <div class="row">
+                    <div class="col">
+                        {{ getGroupsAsString(details.relatedGroups) }}
+                        <span>
+                            <i class="fa fa-edit"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div *ngFor="let group of getGroups(details)" class="form-check">
+                        <label class="form-check-label" (change)="groupChecked(group, details)">
+                            <input type="checkbox" class="form-check-input"
+                                   [attr.checked]="isGroupChecked(group, details) ? true : null" />
+                            {{ getCurrentGroupName(group) }}
+                        </label>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">
+			OK
+		</button>
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('')">
+			Скасувати
+		</button>
+    </div>
+</form>

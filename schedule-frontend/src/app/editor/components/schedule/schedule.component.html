@@ -1,0 +1,115 @@
+<div id="schedule-editor" class=container-fluid>
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center">{{ currentUser.department.faculty.name }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 m-0 p-0">
+            <div class="text-left">
+                <button class="btn btn-sm btn-light {{ viewToggleClass(1) }}" (click)="changeViewType(1)">Викладачі</button>
+                <button class="btn btn-sm btn-light {{ viewToggleClass(0) }}" (click)="changeViewType(0)">Групи</button>
+            </div>
+        </div>
+        <div>
+            <br>
+        </div>
+
+        <!-- <div class="col-6 text-center">
+            <span class="btn" (click)="view.decreaseSize()">
+                <i class="fa fa-minus-square"></i>
+            </span>
+            <span>
+                <i class="fa fa-search"></i>
+            </span>
+            <span class="btn" (click)="view.increaseSize()">
+                <i class="fa fa-plus-square"></i>
+            </span>
+        </div> -->
+        <div class="col-3 text-right m-0 p-0">
+            <!-- <button class="btn btn-sm btn-light" [ngbPopover]="popover" #pop="ngbPopover" data-toggle="popover" data-trigger="focus" placement="left">
+                <i class="fa fa-calendar-check-o"></i>Аналіз розкладу
+            </button> -->
+            <ng-template #popover>
+                <div *ngIf="checkResult; else noData" class="alert alert-{{checkResult.color}} text-center">
+                    <span class="col"><i class="fa {{checkResult.icon}}"></i></span>
+                    <span class="alert-header">{{checkResult.message}}</span>
+                </div>
+
+                <ng-template #noData>
+                    <div class="alert alert-light text-center">
+                        <span class="alert-header">Немає даних про розклад.</span>
+                    </div>
+                </ng-template>
+                <!-- <div [ngSwitch]="checkResult">
+                    <ng-container *ngSwitchCase="0">
+                        <div class="alert alert-success text-center">
+                            <span><i class="fa fa fa-smile-o"></i></span>
+                            <span class="alert-header">Розклад відповідає всім вимогам.</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="1">
+                        <div class="alert alert-warning text-center">
+                            <span><i class="fa fa fa-meh-o"></i></span>
+                            <span class="alert-header">Розклад порушує деякі вимоги.</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="2">
+                        <div class=" alert alert-danger text-center">
+                            <span><i class="fa fa fa-frown-o"></i></span>
+                            <span class="alert-header">Розклад не відповідає вимогам.</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <div class=" alert alert-light text-center">
+                            <span class="alert-header">Немає даних про розклад.</span>
+                        </div>
+                    </ng-container>
+                </div> -->
+                <!-- <div>
+                    <button class="btn btn-sm btn-light" (click)="checkSchedule(); pop.close();">Перевірити розклад</button>
+                    <button class="btn btn-sm btn-light" (click)="openSettings(); pop.close();"><i class="fa fa-sliders"></i></button>
+                </div> -->
+            </ng-template>
+            <!-- <label>
+                Тільки факультет
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </label> -->
+        </div>
+    </div>
+    <div class="row text-center available-classes-{{ viewExpandedClass() }} justify-content-md-center">
+        <schedule-editor-view #view>
+        </schedule-editor-view>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-accordion #acc="ngbAccordion" class="fixed-bottom text-sm text-center">
+                <ngb-panel id="toggle-1">
+                    <ng-template ngbPanelTitle>
+                        <div class="text-center" (click)="availableExpanded=!availableExpanded"><i class="fa fa-chevron-up"></i></div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+                        <schedule-editor-available-classes>
+                        </schedule-editor-available-classes>
+                        <!-- <div id="available-classes" class="table-responsive scroll-x" dropDirective (dropEvent)="addDropItem($event, -1, 0)">
+                            <div class="d-inline-flex text-white justify-content-center">
+                                <div *ngFor="let class of availableClasses" class="m-1 bg-primary not-set-class">
+                                    <div [dragDirective]='class' [dragHightlight]="'drag-highlight'" (releaseDrop)="releaseDrop(class)" (startDrag)="startDrag(class)">
+                                        <div ngbTooltip="{{class.subject.name}}" #tooltip="ngbTooltip" (mousedown)="tooltip.close()">
+                                            <div><b>{{ getShortName(class.subject.name) }}</b></div>
+                                            <div>{{ class.type }}</div>
+                                            <div>{{ getGroupsAsString(class.groups) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+    </div>
+</div>

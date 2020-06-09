@@ -1,0 +1,33 @@
+<h1 class="text-center">Розклад занять</h1>
+
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col">
+			<div id="faculties" role="tablist" aria-multiselectable="true">
+				<div class="card" *ngFor="let faculty of faculties">
+					<div class="card-header" role="tab" id="{{ faculty.id }}">
+						<h6 class="m-0">
+							<a data-toggle="collapse"
+								 data-parent="#faculties"	href="#faculty{{ faculty.id }}"
+								 aria-expanded="false" [attr.aria-controls]="'faculty' + faculty.id">
+								{{ faculty.name }}
+							</a>
+						</h6>
+					</div>
+
+					<div id="faculty{{ faculty.id }}" class="collapse"
+							 role="tabpanel" [attr.aria-labelledby]="faculty.id">
+						<div *ngFor="let lecturer of lecturers.get(faculty.id)">
+							<div class="dropdown-divider m-0"></div>
+							<div class="btn btn-link m-0" style="cursor: pointer"
+									 (click)="navigateToLecturer(lecturer.id)">
+								{{ lecturer.lastName }} {{ lecturer.firstName }} {{ lecturer.middleName }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-info">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+    <a class="navbar-brand" routerLink="">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <!-- Common -->
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/schedule/groups" routerLinkActive="active">
+					Групи
+				</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/schedule/lecturers" routerLinkActive="active">
+					Викладачі
+				</a>
+            </li>
+
+            <!-- Lecturer -->
+            <li *ngIf="isLecturer() | async" class="nav-item">
+                <a class="nav-link" routerLink="/lecturer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+					Мій розклад
+				</a>
+            </li>
+            <li *ngIf="isLecturer() | async" class="nav-item">
+                <a class="nav-link" routerLink="/lecturer/wishes" routerLinkActive="active">
+					Побажання
+				</a>
+            </li>
+
+            <!-- Editor -->
+            <li *ngIf="isEditor() | async" class="nav-item">
+                <a class="nav-link" routerLink="/editor/schedule" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+					Розклад
+				</a>
+            </li>
+            <li *ngIf="isEditor() | async" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="settings" data-toggle="dropdown">
+					Налаштування
+				</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" routerLink="/editor/groups" routerLinkActive="active">Групи</a>
+                    <a class="dropdown-item" routerLink="/editor/plans" routerLinkActive="active">Навчальні плани</a>
+                </div>
+            </li>
+
+            <!-- Admin -->
+            <li *ngIf="isAdmin() | async" class="nav-item">
+                <a class="nav-link" routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+					Користувачі
+				</a>
+            </li>
+            <li *ngIf="isAdmin() | async" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="settings" data-toggle="dropdown">
+					Налаштування
+				  </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" routerLink="/admin/faculties" routerLinkActive="active">Факультети</a>
+                    <a class="dropdown-item" routerLink="/admin/subjects" routerLinkActive="active">Предмети</a>
+                    <a class="dropdown-item" routerLink="/admin/classrooms" routerLinkActive="active">Аудиторії</a>
+                </div>
+            </li>
+        </ul>
+        <ul *ngIf="!isLoggingIn()" class="navbar-nav mx-3">
+            <li *ngIf="!isLoggedIn(); else loggedIn" class="nav-item">
+                <a class="nav-link" routerLink="/login">Вхід</a>
+            </li>
+            <ng-template #loggedIn>
+                <li class="nav-item dropdown">
+                    <a id="dropdownItem" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						{{ currentUserInitials() | async }}
+					</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" routerLink="/logout">
+							Вийти
+						</a>
+                    </div>
+                </li>
+            </ng-template>
+        </ul>
+    </div>
+</nav>

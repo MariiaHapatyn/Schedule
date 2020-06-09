@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md mb-3">
+            <h2 class="h2 text-center">Факультети</h2>
+            <div class="text-right mb-3">
+                <button class="btn btn-primary" (click)="addFacultyClicked()">
+                            <i class="fa fa-plus"></i> Додати факультет
+                        </button>
+            </div>
+            <div id="faculties" role="tablist" aria-multiselectable="true">
+                <div class="card" *ngFor="let faculty of faculties">
+                    <div class="card-header" role="tab" id="{{ faculty.id }}">
+                        <div class="row align-content-middle">
+                            <div class="col-10 pt-1">
+                                <a class="h6" data-toggle="collapse" href="#faculty{{ faculty.id }}" aria-expanded="false" [attr.aria-controls]="'faculty' + faculty.id">
+                                        {{ faculty.name }}
+                                    </a>
+                            </div>
+                            <div class="col-2 text-rightbtn-group float-right my-1 text-right">
+                                <button class="btn btn-sm btn-success text-right" (click)="editFacultyClicked(faculty)">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </button>
+                                <button class="btn btn-sm btn-danger text-right" (click)="deleteFacultyClicked(faculty.id)">
+                                        <i class="fa fa-remove" aria-hidden="true"></i>
+                                    </button>
+                            </div>
+                        </div>
+                        <div id="faculty{{ faculty.id }}" class="collapse" role="tabpanel" [attr.aria-labelledby]="faculty.id">
+                            <div class="text-right mb-1 mt-3">
+                                <button class="btn btn-sm btn-primary" (click)="addDepartmentClicked(building)">
+                                    <i class="fa fa-plus"></i> Додати спеціальність
+                                </button>
+                            </div>
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Назва</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let department of departments.get(faculty.id)">
+                                        <td>
+                                            {{ department.name }}
+                                        </td>
+                                        <td class="text-right">
+                                            <button class="btn btn-sm btn-success" (click)="editDepartmentClicked(department)">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" (click)="deleteDepartmentClicked(department.id)">
+                                                <i class="fa fa-remove" aria-hidden="true"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
